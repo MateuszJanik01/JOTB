@@ -1,0 +1,34 @@
+SellerName -> a1
+SellerAddress -> a2
+SellerCountry -> a3
+SellerNip -> a4
+SellerEmail -> a5
+SelletPhone -> a6
+SellerWeb -> a7
+SellerBankName -> a8
+SellerAccountNumber -> a9
+SellerBankSwift -> a10
+ClientType -> o1
+if ClientType = "Company" {
+ClientCompanyName -> b1
+ClientCompanyNip -> b2
+}
+if ClientType = "Indyvidual" {
+FirstName -> c1
+LastName -> c2
+}
+ClientAddress -> b3
+ClientCountry -> b4
+ClientPhone -> b5
+ClientEmail -> b6
+ClientMethodPayement -> b7
+FvNumber -> b8
+Products: {
+Name -> p1
+NettoPrice -> p2
+Amount -> p3
+NettoValue -> p4
+Vat -> p5
+VatValue -> p6
+TotalValue -> p7
+}

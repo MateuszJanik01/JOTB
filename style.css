@@ -1,0 +1,27 @@
+body {
+    display: flex;
+    flex-direction: row;
+}
+.col {
+    flex: 1;
+}
+
+label {
+    font-weight: bold;
+}
+        
+input, select, button {
+    padding: 8px;
+    margin: 5px 0;
+    width: 50%;
+}
+
+.hidden {
+    display: none;
+}
+
+.product {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+}

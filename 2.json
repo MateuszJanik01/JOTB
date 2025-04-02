@@ -1,0 +1,40 @@
+{
+    "a1": "Tech Solutions Sp. z o.o.",
+    "a2": "ul. Informatyczna 10, 00-123 Warszawa",
+    "a3": "Polska",
+    "a4": "1234567890",
+    "a5": "contact@techsolutions.pl",
+    "a6": "+48 123 456 789",
+    "a7": "https://www.techsolutions.pl",
+    "a8": "Bank Polska SA",
+    "a9": "PL12123456789012345678901234",
+    "a10": "BPKOPLPW",
+    "c1": "Jan",
+    "c2": "Kowalski",
+    "b3": "ul. Miodowa 15, 02-345 Warszawa",
+    "b4": "Polska",
+    "b5": "+48 600 123 456",
+    "b6": "jan.kowalski@example.com",
+    "b7": "Karta kredytowa",
+    "b8": "FV-2025-002",
+    "Products": [
+        {
+            "p1": "Smartfon Samsung Galaxy S24",
+            "p2": 4000,
+            "p3": 1,
+            "p4": 4000,
+            "p5": 23,
+            "p6": 920,
+            "p7": 4920
+        },
+        {
+            "p1": "Słuchawki Sony WH-1000XM5",
+            "p2": 1200,
+            "p3": 1,
+            "p4": 1200,
+            "p5": 23,
+            "p6": 276,
+            "p7": 1476
+        }
+    ]
+}
