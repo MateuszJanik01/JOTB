@@ -1,21 +1,6 @@
-document.getElementById('fileInput').addEventListener('change', function (event) {
-    const file = event.target.files[0];
-    if (!file) return;
+function JSONToString(data) {
 
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        try {
-            const jsonData = JSON.parse(e.target.result);
-            displayData(jsonData);
-        } catch (error) {
-            document.getElementById('output').textContent = "Błąd: Nieprawidłowy format JSON.";
-        }
-    };
-    reader.readAsText(file);
-});
-
-function displayData(data) {
-    let output = `Sprzedawca:\n`;
+  let output = `Sprzedawca:\n`;
     output += `Nazwa: ${data.a1}\nAdres: ${data.a2}\nKraj: ${data.a3}\nNIP: ${data.a4}\n`;
     output += `Email: ${data.a5}\nTelefon: ${data.a6}\nStrona WWW: ${data.a7}\n`;
     output += `Bank: ${data.a8}\nKonto: ${data.a9}\nSWIFT: ${data.a10}\n\n`;
@@ -45,5 +30,41 @@ function displayData(data) {
         output += `Wartość całkowita: ${product.p7}\n\n`;
     });
 
-    document.getElementById('output').textContent = output;
+    return output;
+}
+
+function removePolishCharacters(text) {
+  const polishMap = {
+    'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l',
+    'ń': 'n', 'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
+    'Ą': 'A', 'Ć': 'C', 'Ę': 'E', 'Ł': 'L',
+    'Ń': 'N', 'Ó': 'O', 'Ś': 'S', 'Ź': 'Z', 'Ż': 'Z'
+  };
+
+  return text.replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, function(char) {
+    return polishMap[char] || char;
+  });
+}
+
+function generateMatrixSVG(message) {
+    const values = JSONToString(message);
+    const normalizedValues = removePolishCharacters(values);
+    // console.log(normalizedValues);
+
+    // const jsonString = JSON.stringify(message, null, 4);
+    // console.log(jsonString);
+
+    var svgNode = DATAMatrix({
+
+     msg :  normalizedValues
+    ,dim :   320
+    ,rct :   0
+    ,pad :   2
+    ,vrb :   0
+
+    });
+
+    const div = document.getElementById('matrixSVG');
+    div.innerHTML = "";
+    div.appendChild(svgNode);
 }

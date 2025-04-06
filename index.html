@@ -11,6 +11,9 @@
         <h2>Wczytaj plik JSON</h2>
         <input type="file" id="fileInput" accept=".json">
         <pre id="output"></pre>
+        <div id="matrixSVG">
+
+        </div>
     </div>
     <div class="col">
         <h1>Generator JSON - Faktura</h1>
@@ -59,7 +62,9 @@
         </form>
     </div>
 
-    <script src="./script.js"></script>
-    <script src="./generator.js"></script>
+    <script src="./loadJSON.js"></script>
+    <script src="./generateJSON.js"></script>
+    <script src="./generateMatrix.js"></script>
+    <script src="./datamatrix.min.js"></script>
 </body>
 </html>
