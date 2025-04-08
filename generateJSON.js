@@ -5,7 +5,7 @@ function toggleClientFields() {
         }
 
 function addProduct() {
-    const container = document.getElementBy('productsContainer');
+    const container = document.getElementById('productsContainer');
     const productIndex = container.children.length + 1;
     const productDiv = document.createElement('div');
     productDiv.classList.add('product');
