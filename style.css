@@ -1,27 +1,43 @@
 body {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    font-family: Arial, sans-serif;
 }
 .col {
     flex: 1;
+    padding: 20px;
 }
-
 label {
     font-weight: bold;
 }
-        
 input, select, button {
     padding: 8px;
     margin: 5px 0;
     width: 50%;
 }
-
 .hidden {
     display: none;
 }
-
 .product {
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px 0;
+}
+.print-section {
+    border-left: 2px dashed #000;
+}
+.print-btn {
+    margin-top: 20px;
+}
+@media print {
+    body {
+        display: block;
+    }
+    form, .print-btn, .col:first-child {
+        display: none;
+    }
+    #invoicePreview {
+        display: block;
+    }
 }

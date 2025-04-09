@@ -3,18 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Generator Faktur</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="col">
-        <h2>Wczytaj plik JSON</h2>
-        <input type="file" id="fileInput" accept=".json">
-        <pre id="output"></pre>
-        <div id="matrixSVG">
-
-        </div>
-    </div>
     <div class="col">
         <h1>Generator JSON - Faktura</h1>
         <form id="invoiceForm">
@@ -57,14 +49,21 @@
             <h2>Produkty</h2>
             <div id="productsContainer"></div>
             <button type="button" onclick="addProduct()">Dodaj produkt</button>
-
-            <button type="button" onclick="generateJSON()">Generuj JSON</button>
+            <button type="button" onclick="generateInvoice()">Generuj fakturę</button>
         </form>
     </div>
 
-    <script src="./loadJSON.js"></script>
-    <script src="./generateJSON.js"></script>
-    <script src="./generateMatrix.js"></script>
+    <!-- Sekcja faktury -->
+    <div id="invoicePreview" class="col print-section hidden">
+        <h2>Faktura</h2>
+        <div id="sellerData"></div>
+        <div id="clientData"></div>
+        <div id="productsTable"></div>
+        <div id="matrixSVG"></div>
+        <button onclick="window.print()" class="print-btn">Drukuj fakturę</button>
+    </div>
+
     <script src="./datamatrix.min.js"></script>
+    <script src="./generateInvoice.js"></script>
 </body>
 </html>
