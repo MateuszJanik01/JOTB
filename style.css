@@ -111,10 +111,6 @@ td {
     white-space: pre-wrap;
 }
 
-/* Sekcja wydruku */
-.print-section {
-    /* border-left: 2px dashed #000; */
-}
 
 .page-break {
     page-break-before: always;
