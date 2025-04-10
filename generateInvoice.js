@@ -11,15 +11,17 @@ function addProduct() {
     div.className = "product";
     div.innerHTML = `
         <label>Nazwa:</label> <input type="text" id="p1_${index}"><br>
-        <label>Cena netto:</label> <input type="number" id="p2_${index}"><br>
-        <label>Ilość:</label> <input type="number" id="p3_${index}"><br>
-        <label>Wartość netto:</label> <input type="number" id="p4_${index}"><br>
-        <label>VAT (%):</label> <input type="number" id="p5_${index}"><br>
-        <label>Wartość VAT:</label> <input type="number" id="p6_${index}"><br>
-        <label>Wartość całkowita:</label> <input type="number" id="p7_${index}"><br>
+        <label>Cena netto:</label> <input type="number" id="p2_${index}" step="0.01" oninput="recalculate(${index})"><br>
+        <label>Ilość:</label> <input type="number" id="p3_${index}" step="1" oninput="recalculate(${index})"><br>
+        <label>Wartość netto:</label> <input type="number" id="p4_${index}" readonly><br>
+        <label>VAT (%):</label> <input type="number" id="p5_${index}" step="1" oninput="recalculate(${index})"><br>
+        <label>Wartość VAT:</label> <input type="number" id="p6_${index}" readonly><br>
+        <label>Wartość całkowita:</label> <input type="number" id="p7_${index}" readonly><br>
     `;
     container.appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
 
 function collectFormData() {
     const data = {
@@ -90,11 +92,9 @@ function generateInvoice() {
     });
     productsHTML += `</table>`;
     document.getElementById("productsTable").innerHTML = productsHTML;
+    document.getElementById("productsTable").innerHTML += "<br><br>Zeskanuj kod matrycy<br>";
 
-    // Wygeneruj kod matrycy
     generateMatrixSVG(data);
-
-    // Pokaż sekcję faktury
     document.getElementById("invoicePreview").classList.remove("hidden");
 }
 
