@@ -113,7 +113,7 @@ td {
 
 /* Sekcja wydruku */
 .print-section {
-    border-left: 2px dashed #000;
+    /* border-left: 2px dashed #000; */
 }
 
 .page-break {
