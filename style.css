@@ -2,37 +2,101 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
 }
+
+h1 {
+    color: #0066cc;
+}
+
+h2 {
+    color: #444;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
 .col {
     flex: 1;
     padding: 20px;
+    background-color: white;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
 label {
     font-weight: bold;
+    display: inline-block;
+    width: 200px;
+    margin-top: 10px;
 }
-input, select, button {
+
+input, select {
     padding: 8px;
-    margin: 5px 0;
+    margin: 5px 0 15px 0;
     width: 50%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
+
+button {
+    background-color: #0066cc;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 10px 0 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #004c99;
+}
+
 .hidden {
     display: none;
 }
+
 .product {
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     padding: 10px;
     margin: 10px 0;
+    background-color: #f9f9f9;
+    border-radius: 5px;
 }
+
 .print-section {
     border-left: 2px dashed #000;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #0066cc;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
 .print-btn {
     margin-top: 20px;
+    background-color: #00aa00;
 }
+
 @media print {
     body {
         display: block;
+        background-color: white;
     }
     form, .print-btn, .col:first-child {
         display: none;
@@ -40,4 +104,41 @@ input, select, button {
     #invoicePreview {
         display: block;
     }
+}
+#printTable, #productsTable table {
+    table-layout: fixed;
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+#printTable td, #productsTable td {
+    white-space: pre-wrap;
+}
+
+.page-break {
+    page-break-before: always;
+    margin-top: 40px;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+td, th {
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.matrix-center {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }

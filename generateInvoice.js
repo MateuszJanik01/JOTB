@@ -25,6 +25,7 @@ function addProduct() {
 
 function collectFormData() {
     const data = {
+        issueDate: document.getElementById("issueDate").value,
         a1: document.getElementById("a1").value,
         a2: document.getElementById("a2").value,
         a3: document.getElementById("a3").value,
@@ -64,11 +65,30 @@ function collectFormData() {
     return data;
 }
 
+function recalculate(index) {
+    const price = parseFloat(document.getElementById(`p2_${index}`).value) || 0;
+    const quantity = parseFloat(document.getElementById(`p3_${index}`).value) || 0;
+    const vatPercent = parseFloat(document.getElementById(`p5_${index}`).value) || 0;
+
+    const netValue = price * quantity;
+    const vatValue = netValue * (vatPercent / 100);
+    const total = netValue + vatValue;
+
+    document.getElementById(`p4_${index}`).value = netValue.toFixed(2);
+    document.getElementById(`p6_${index}`).value = vatValue.toFixed(2);
+    document.getElementById(`p7_${index}`).value = total.toFixed(2);
+}
+
+
 function generateInvoice() {
+    const oldMatrixPages = document.querySelectorAll(".page-break");
+    oldMatrixPages.forEach(el => el.remove());
+
     const data = collectFormData();
 
     // Dane Sprzedawcy
     document.getElementById("sellerData").innerHTML = `
+        <span>Data wystawienia faktury: ${data.issueDate}</span>
         <h3>Sprzedawca</h3>
         <p><strong>${data.a1}</strong><br>${data.a2}, ${data.a3}<br>NIP: ${data.a4}<br>Email: ${data.a5}<br>Telefon: ${data.a6}<br>WWW: ${data.a7}<br>
         Bank: ${data.a8}, Konto: ${data.a9}, SWIFT: ${data.a10}</p>
@@ -85,16 +105,48 @@ function generateInvoice() {
     document.getElementById("clientData").innerHTML = clientHTML;
 
     // Tabela Produktów
-    let productsHTML = `<h3>Produkty</h3><table border="1" cellspacing="0" cellpadding="5"><tr>
-        <th>Nazwa</th><th>Cena netto</th><th>Ilość</th><th>Wartość netto</th><th>VAT %</th><th>Wartość VAT</th><th>Razem</th></tr>`;
-    data.Products.forEach(p => {
-        productsHTML += `<tr><td>${p.p1}</td><td>${p.p2}</td><td>${p.p3}</td><td>${p.p4}</td><td>${p.p5}</td><td>${p.p6}</td><td>${p.p7}</td></tr>`;
-    });
-    productsHTML += `</table>`;
-    document.getElementById("productsTable").innerHTML = productsHTML;
-    document.getElementById("productsTable").innerHTML += "<br><br>Zeskanuj kod matrycy<br>";
+    let totalNet = 0, totalVAT = 0, totalGross = 0;
 
-    generateMatrixSVG(data);
+    let productsHTML = `<h3>Produkty</h3><table id="printTable" border="1" cellspacing="0" cellpadding="5"><tr>
+        <th>Nazwa</th><th>Cena netto</th><th>Ilość</th><th>Wartość netto</th><th>VAT %</th><th>Wartość VAT</th><th>Razem</th></tr>`;
+    
+    data.Products.forEach(p => {
+        const netto = parseFloat(p.p4) || 0;
+        const vat = parseFloat(p.p6) || 0;
+        const brutto = parseFloat(p.p7) || 0;
+    
+        totalNet += netto;
+        totalVAT += vat;
+        totalGross += brutto;
+    
+        productsHTML += `<tr>
+            <td>${p.p1}</td><td>${p.p2}</td><td>${p.p3}</td><td>${p.p4}</td><td>${p.p5}</td><td>${p.p6}</td><td>${p.p7}</td>
+        </tr>`;
+    });
+    
+    productsHTML += `
+        <tr style="font-weight:bold;">
+            <td colspan="3">Razem</td>
+            <td>${totalNet.toFixed(2)}</td>
+            <td></td>
+            <td>${totalVAT.toFixed(2)}</td>
+            <td>${totalGross.toFixed(2)}</td>
+        </tr>
+    </table>`;
+    
+    document.getElementById("productsTable").innerHTML = productsHTML;
+    const invoicePreview = document.getElementById("invoicePreview");
+
+    const matrixPage = document.createElement("div");
+    matrixPage.className = "page-break matrix-center";
+    matrixPage.innerHTML = `
+        <div id="matrixSVG"></div>
+    `;
+    invoicePreview.appendChild(matrixPage);
+    
+    generateMatrixSVG(data, matrixPage.querySelector("#matrixSVG"));
+
+    
     document.getElementById("invoicePreview").classList.remove("hidden");
 }
 
@@ -104,7 +156,7 @@ function removePolishCharacters(text) {
 }
 
 function JSONToString(data) {
-    let txt = `Sprzedawca:\n${data.a1}, ${data.a2}, ${data.a3}, NIP: ${data.a4}\nEmail: ${data.a5}, Tel: ${data.a6}, WWW: ${data.a7}\nBank: ${data.a8}, Konto: ${data.a9}, SWIFT: ${data.a10}\n\nKlient:\n`;
+    let txt = `Data wystawienia: ${data.issueDate}\n\nSprzedawca:\n${data.a1}, ${data.a2}, ${data.a3}, NIP: ${data.a4}\nEmail: ${data.a5}, Tel: ${data.a6}, WWW: ${data.a7}\nBank: ${data.a8}, Konto: ${data.a9}, SWIFT: ${data.a10}\n\nKlient:\n`;
     if (data.b1 && data.b2) txt += `${data.b1}, NIP: ${data.b2}\n`; else if (data.c1 && data.c2) txt += `${data.c1} ${data.c2}\n`;
     txt += `${data.b3}, ${data.b4}, Email: ${data.b6}, Tel: ${data.b5}, Płatność: ${data.b7}, Faktura nr: ${data.b8}\n\nProdukty:\n`;
     data.Products.forEach((p, i) => {
@@ -113,11 +165,16 @@ function JSONToString(data) {
     return txt;
 }
 
-function generateMatrixSVG(message) {
+function generateMatrixSVG(message, container) {
     const values = JSONToString(message);
     const normalized = removePolishCharacters(values);
     const svgNode = DATAMatrix({ msg: normalized, dim: 320, rct: 0, pad: 2, vrb: 0 });
-    const div = document.getElementById("matrixSVG");
-    div.innerHTML = "";
-    div.appendChild(svgNode);
+    container.innerHTML = ""; 
+    container.appendChild(svgNode);
 }
+
+
+window.onload = () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById("issueDate").value = today;
+};

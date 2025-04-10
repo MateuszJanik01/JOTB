@@ -11,6 +11,8 @@
         <h1>Generator JSON - Faktura</h1>
         <form id="invoiceForm">
             <h2>Dane Sprzedawcy</h2>
+            <label>Data wystawienia:</label>
+            <input type="date" id="issueDate" required><br>
             <label>Nazwa:</label> <input type="text" id="a1" required><br>
             <label>Adres:</label> <input type="text" id="a2" required><br>
             <label>Kraj:</label> <input type="text" id="a3" required><br>
@@ -55,6 +57,7 @@
 
     <div id="invoicePreview" class="col print-section hidden">
         <h2>Faktura</h2>
+        <p><strong>Data wystawienia:</strong> <span id="issueDate"></span></p>
         <div id="sellerData"></div>
         <div id="clientData"></div>
         <div id="productsTable"></div>
@@ -65,4 +68,4 @@
     <script src="./datamatrix.min.js"></script>
     <script src="./generateInvoice.js"></script>
 </body>
-</html> 
+</html>
