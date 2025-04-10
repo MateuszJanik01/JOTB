@@ -88,7 +88,7 @@ function generateInvoice() {
 
     // Dane Sprzedawcy
     document.getElementById("sellerData").innerHTML = `
-        <span>Data wystawienia faktury: ${data.issueDate}</span>
+        <span>${data.issueDate}</span>
         <h3>Sprzedawca</h3>
         <p><strong>${data.a1}</strong><br>${data.a2}, ${data.a3}<br>NIP: ${data.a4}<br>Email: ${data.a5}<br>Telefon: ${data.a6}<br>WWW: ${data.a7}<br>
         Bank: ${data.a8}, Konto: ${data.a9}, SWIFT: ${data.a10}</p>
@@ -140,6 +140,7 @@ function generateInvoice() {
     const matrixPage = document.createElement("div");
     matrixPage.className = "page-break matrix-center";
     matrixPage.innerHTML = `
+        <p><strong>Zeskanuj kod matrycy, aby pobrać dane</strong></p>
         <div id="matrixSVG"></div>
     `;
     invoicePreview.appendChild(matrixPage);

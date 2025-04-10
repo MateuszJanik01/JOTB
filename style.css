@@ -17,6 +17,7 @@ h2 {
     padding-bottom: 5px;
 }
 
+/* Layout kolumn */
 .col {
     flex: 1;
     padding: 20px;
@@ -26,6 +27,7 @@ h2 {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+/* Formularze */
 label {
     font-weight: bold;
     display: inline-block;
@@ -33,7 +35,8 @@ label {
     margin-top: 10px;
 }
 
-input, select {
+input,
+select {
     padding: 8px;
     margin: 5px 0 15px 0;
     width: 50%;
@@ -41,6 +44,7 @@ input, select {
     border-radius: 5px;
 }
 
+/* Przyciski */
 button {
     background-color: #0066cc;
     color: white;
@@ -55,10 +59,12 @@ button:hover {
     background-color: #004c99;
 }
 
-.hidden {
-    display: none;
+.print-btn {
+    margin-top: 20px;
+    background-color: #00aa00;
 }
 
+/* Produkty */
 .product {
     border: 1px solid #ddd;
     padding: 10px;
@@ -67,14 +73,14 @@ button:hover {
     border-radius: 5px;
 }
 
-.print-section {
-    border-left: 2px dashed #000;
-}
-
+/* Tabele */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    table-layout: fixed;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 th {
@@ -86,34 +92,28 @@ th {
 td {
     padding: 10px;
     border: 1px solid #ccc;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
-.print-btn {
-    margin-top: 20px;
-    background-color: #00aa00;
-}
-
-@media print {
-    body {
-        display: block;
-        background-color: white;
-    }
-    form, .print-btn, .col:first-child {
-        display: none;
-    }
-    #invoicePreview {
-        display: block;
-    }
-}
-#printTable, #productsTable table {
+#printTable,
+#productsTable table {
     table-layout: fixed;
     width: 100%;
     word-wrap: break-word;
     word-break: break-word;
 }
 
-#printTable td, #productsTable td {
+#printTable td,
+#productsTable td {
     white-space: pre-wrap;
+}
+
+/* Sekcja wydruku */
+.print-section {
+    border-left: 2px dashed #000;
 }
 
 .page-break {
@@ -121,24 +121,37 @@ td {
     margin-top: 40px;
 }
 
-table {
-    table-layout: fixed;
-    width: 100%;
-    word-wrap: break-word;
-    word-break: break-word;
+@media print {
+    body {
+        display: block;
+        background-color: white;
+    }
+
+    form,
+    .print-btn,
+    .col:first-child {
+        display: none;
+    }
+
+    #invoicePreview {
+        display: block;
+    }
+
+    .matrix-center {
+        margin-top: 100px;
+    }
 }
 
-td, th {
-    word-wrap: break-word;
-    word-break: break-word;
-    overflow-wrap: break-word;
+/* Ukrywanie elementów */
+.hidden {
+    display: none;
 }
 
+/* Matryca danych */
 .matrix-center {
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
 }
