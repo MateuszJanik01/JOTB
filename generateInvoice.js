@@ -147,7 +147,6 @@ function generateInvoice() {
     
     generateMatrixSVG(data, matrixPage.querySelector("#matrixSVG"));
 
-    
     document.getElementById("invoicePreview").classList.remove("hidden");
 }
 
@@ -156,19 +155,9 @@ function removePolishCharacters(text) {
     return text.replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, m => map[m]);
 }
 
-function JSONToString(data) {
-    let txt = `Data wystawienia: ${data.issueDate}\n\nSprzedawca:\n${data.a1}, ${data.a2}, ${data.a3}, NIP: ${data.a4}\nEmail: ${data.a5}, Tel: ${data.a6}, WWW: ${data.a7}\nBank: ${data.a8}, Konto: ${data.a9}, SWIFT: ${data.a10}\n\nKlient:\n`;
-    if (data.b1 && data.b2) txt += `${data.b1}, NIP: ${data.b2}\n`; else if (data.c1 && data.c2) txt += `${data.c1} ${data.c2}\n`;
-    txt += `${data.b3}, ${data.b4}, Email: ${data.b6}, Tel: ${data.b5}, Płatność: ${data.b7}, Faktura nr: ${data.b8}\n\nProdukty:\n`;
-    data.Products.forEach((p, i) => {
-        txt += `${i + 1}. ${p.p1}, Netto: ${p.p2}, Ilość: ${p.p3}, Netto: ${p.p4}, VAT: ${p.p5}%, VAT Wartość: ${p.p6}, Razem: ${p.p7}\n`;
-    });
-    return txt;
-}
-
 function generateMatrixSVG(message, container) {
-    const values = JSONToString(message);
-    const normalized = removePolishCharacters(values);
+    const jsonString = JSON.stringify(message, null, 4);
+    const normalized = removePolishCharacters(jsonString);
     const svgNode = DATAMatrix({ msg: normalized, dim: 320, rct: 0, pad: 2, vrb: 0 });
     container.innerHTML = ""; 
     container.appendChild(svgNode);
