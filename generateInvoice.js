@@ -65,6 +65,14 @@ function collectFormData() {
     return data;
 }
 
+
+function collectMatrixCodeData(code){
+        
+      
+    const data = JSON.parse(code);
+    return data;
+}
+
 function recalculate(index) {
     const price = parseFloat(document.getElementById(`p2_${index}`).value) || 0;
     const quantity = parseFloat(document.getElementById(`p3_${index}`).value) || 0;
@@ -80,11 +88,11 @@ function recalculate(index) {
 }
 
 
-function generateInvoice() {
+function generateInvoice(mode = 0, code = "") {
     const oldMatrixPages = document.querySelectorAll(".page-break");
     oldMatrixPages.forEach(el => el.remove());
 
-    const data = collectFormData();
+    const data = mode == 0 ? collectFormData() : collectMatrixCodeData(code);
 
     // Dane Sprzedawcy
     document.getElementById("sellerData").innerHTML = `
