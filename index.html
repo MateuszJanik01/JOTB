@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generator Faktur</title>
     <link rel="stylesheet" href="./style.css">
+    
 </head>
 <body>
     <div class="col">
@@ -51,8 +52,9 @@
             <h2>Produkty</h2>
             <div id="productsContainer"></div>
             <button type="button" onclick="addProduct()">Dodaj produkt</button>
-            <button type="button" onclick="generateInvoice()">Generuj fakturę</button>
+            <button type="button" onclick="generateInvoice(0)">Generuj fakturę</button>
         </form>
+        <video id="video" width="400" height="530" style="border: 1px solid gray; margin-top: 10px"></video>
     </div>
 
     <div id="invoicePreview" class="col print-section hidden">
@@ -63,9 +65,28 @@
         <div id="productsTable"></div>
         <div id="matrixSVG"></div>
         <button onclick="window.print()" class="print-btn">Drukuj fakturę</button>
-    </div>
 
+        
+
+    </div>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script src="./datamatrix.min.js"></script>
     <script src="./generateInvoice.js"></script>
+
+
+    <script type="module">
+        import { BrowserMultiFormatReader } from 'https://cdn.jsdelivr.net/npm/@zxing/browser@latest/+esm'
+      
+        const codeReader = new BrowserMultiFormatReader()
+      
+        codeReader.decodeFromVideoDevice(null, 'video', (result, err) => {
+          if (result) {
+            generateInvoice(1, result.getText());
+                codeReader.reset();
+          }
+        })
+      </script>
+      
+
 </body>
 </html>
