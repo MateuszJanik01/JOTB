@@ -11,6 +11,7 @@ function addProduct() {
     div.className = "product";
     div.innerHTML = `
         <label>Nazwa:</label> <input type="text" id="p1_${index}"><br>
+        <label>Numer produktu:</label> <input type="number" id="p8_${index}"><br>
         <label>Cena netto:</label> <input type="number" id="p2_${index}" step="0.01" oninput="recalculate(${index})"><br>
         <label>Ilość:</label> <input type="number" id="p3_${index}" step="1" oninput="recalculate(${index})"><br>
         <label>Wartość netto:</label> <input type="number" id="p4_${index}" readonly><br>
@@ -58,7 +59,8 @@ function collectFormData() {
             p4: document.getElementById(`p4_${i}`).value,
             p5: document.getElementById(`p5_${i}`).value,
             p6: document.getElementById(`p6_${i}`).value,
-            p7: document.getElementById(`p7_${i}`).value
+            p7: document.getElementById(`p7_${i}`).value,
+            p8: document.getElementById(`p8_${i}`).value,
         });
     });
 
@@ -115,9 +117,12 @@ function generateInvoice(mode = 0, code = "") {
     // Tabela Produktów
     let totalNet = 0, totalVAT = 0, totalGross = 0;
 
-    let productsHTML = `<h3>Produkty</h3><table id="printTable" border="1" cellspacing="0" cellpadding="5"><tr>
-        <th>Nazwa</th><th>Cena netto</th><th>Ilość</th><th>Wartość netto</th><th>VAT %</th><th>Wartość VAT</th><th>Razem</th></tr>`;
-    
+    let productsHTML = `<h3>Produkty</h3><table id="printTable" border="1" cellspacing="0" cellpadding="5">
+
+        <tr>
+        <th>Nazwa</th><th>Cena netto</th><th>Ilość</th><th>Wartość netto</th><th>VAT %</th><th>Wartość VAT</th><th>Razem</th>
+        <th>Kod kreskowy</th></tr>`;
+    let i = 0;
     data.Products.forEach(p => {
         const netto = parseFloat(p.p4) || 0;
         const vat = parseFloat(p.p6) || 0;
@@ -129,6 +134,16 @@ function generateInvoice(mode = 0, code = "") {
     
         productsHTML += `<tr>
             <td>${p.p1}</td><td>${p.p2}</td><td>${p.p3}</td><td>${p.p4}</td><td>${p.p5}</td><td>${p.p6}</td><td>${p.p7}</td>
+            <td style="text-align: center;"> 
+            <svg id="barcode${i}" jsbarcode-value="${p.p8}"
+            jsbarcode-textmargin="0"
+            jsbarcode-margin="1"
+            jsbarcode-height="30"
+            jsbarcode-width="1"
+            jsbarcode-fontSize="12"
+            >
+            </svg>
+            </td>
         </tr>`;
     });
     
@@ -144,7 +159,7 @@ function generateInvoice(mode = 0, code = "") {
     
     document.getElementById("productsTable").innerHTML = productsHTML;
     const invoicePreview = document.getElementById("invoicePreview");
-
+ 
     const matrixPage = document.createElement("div");
     matrixPage.className = "page-break matrix-center";
     matrixPage.innerHTML = `
@@ -156,6 +171,10 @@ function generateInvoice(mode = 0, code = "") {
     generateMatrixSVG(data, matrixPage.querySelector("#matrixSVG"));
 
     document.getElementById("invoicePreview").classList.remove("hidden");
+    while(i>=0){
+        JsBarcode(`#barcode${i}`).init();
+        i--;
+    }
 }
 
 function removePolishCharacters(text) {
