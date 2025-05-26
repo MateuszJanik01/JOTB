@@ -118,10 +118,15 @@ function generateInvoice(mode = 0, code = "") {
     let totalNet = 0, totalVAT = 0, totalGross = 0;
 
     let productsHTML = `<h3>Produkty</h3><table id="printTable" border="1" cellspacing="0" cellpadding="5">
-
         <tr>
-        <th>Nazwa</th><th>Cena netto</th><th>Ilość</th><th>Wartość netto</th><th>VAT %</th><th>Wartość VAT</th><th>Razem</th>
-        <th>Kod kreskowy</th></tr>`;
+            <th>Nazwa</th>
+            <th>Cena netto</th>
+            <th>Ilość</th>
+            <th>Wartość netto</th>
+            <th>VAT %</th>
+            <th>Wartość VAT</th>
+            <th>Razem</th>
+        </tr>`;
     let i = 0;
     data.Products.forEach(p => {
         const netto = parseFloat(p.p4) || 0;
@@ -132,17 +137,19 @@ function generateInvoice(mode = 0, code = "") {
         totalVAT += vat;
         totalGross += brutto;
     
-        productsHTML += `<tr>
+        productsHTML +=
+        `<tr>
             <td>${p.p1}</td><td>${p.p2}</td><td>${p.p3}</td><td>${p.p4}</td><td>${p.p5}</td><td>${p.p6}</td><td>${p.p7}</td>
-            <td style="text-align: center;"> 
-            <svg id="barcode${i}" jsbarcode-value="${p.p8}"
-            jsbarcode-textmargin="0"
-            jsbarcode-margin="1"
-            jsbarcode-height="30"
-            jsbarcode-width="1"
-            jsbarcode-fontSize="12"
-            >
-            </svg>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align: center;"> 
+                <svg id="barcode${i}" jsbarcode-value="${p.p8}"
+                    jsbarcode-textmargin="0"
+                    jsbarcode-margin="1"
+                    jsbarcode-height="30"
+                    jsbarcode-width="1"
+                    jsbarcode-fontSize="12">
+                </svg>
             </td>
         </tr>`;
     });
@@ -154,7 +161,7 @@ function generateInvoice(mode = 0, code = "") {
             <td></td>
             <td>${totalVAT.toFixed(2)}</td>
             <td>${totalGross.toFixed(2)}</td>
-        </tr>
+        </tr>   
     </table>`;
     
     document.getElementById("productsTable").innerHTML = productsHTML;
